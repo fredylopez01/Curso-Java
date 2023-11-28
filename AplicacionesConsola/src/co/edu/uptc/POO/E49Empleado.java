@@ -3,7 +3,7 @@ package co.edu.uptc.POO;
 import java.util.Date;
 import java.util.GregorianCalendar;
 
-public class E49Empleado implements Comparable, E51Trabajadores{
+public class E49Empleado implements Comparable<E49Empleado>, E51Trabajadores{
 	private String name;
 	private double sueldo;
 	private Date dateContrato;
@@ -27,8 +27,7 @@ public class E49Empleado implements Comparable, E51Trabajadores{
 	}
 	
 	@Override
-	public int compareTo(Object miObjeto) {
-		E49Empleado otroEmpleado = (E49Empleado) miObjeto;
+	public int compareTo(E49Empleado otroEmpleado) {
 		if(this.sueldo < otroEmpleado.sueldo) {
 			return -1;
 		} else if(this.sueldo > otroEmpleado.sueldo) {
