@@ -12,6 +12,7 @@ import javax.swing.JPanel;
 public class MarcoRebote extends JFrame {
 	private static final long serialVersionUID = 1L;
 	private LaminaPelota lamina;
+	private Thread threadTest;
 	
 	public MarcoRebote() {
 		setSize(400, 350);
@@ -27,7 +28,12 @@ public class MarcoRebote extends JFrame {
 		});
 		ponerBoton(laminaBotones, "Salir",new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				System.exit(0);;
+				System.exit(0);
+			}
+		});
+		ponerBoton(laminaBotones, "Detener",new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				detener();
 			}
 		});
 		add(laminaBotones, BorderLayout.SOUTH);
@@ -43,8 +49,12 @@ public class MarcoRebote extends JFrame {
 		Pelota pelota = new Pelota();
 		lamina.add(pelota);
 		Runnable r = new PelotaHilos(pelota, lamina);
-		Thread threadTest = new Thread(r);
+		threadTest = new Thread(r);
 		threadTest.start();
+	}
+	
+	public void detener() {
+		threadTest.interrupt();
 	}
 	
 }

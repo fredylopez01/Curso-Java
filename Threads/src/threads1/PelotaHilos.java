@@ -13,15 +13,19 @@ public class PelotaHilos implements Runnable {
 	
 	@Override
 	public void run() {
-		for(int i = 1; i <=3000; i++) {
+//Se quita el for para que la acción se ejecute indefinidamente y no solo un periodo determinado
+//		for(int i = 1; i <=3000; i++) {
+//Mientras el hilo no sea interrumpido se ejecutara esta acción
+		while(!Thread.interrupted()) {
 			pelota.mueve_pelota(component.getBounds());
 			component.paint(component.getGraphics());
-			try {
-				Thread.sleep(4);
-			} catch (InterruptedException e) {
-				e.printStackTrace();
-				System.out.println(e.getMessage());
-			}
+//Se comenta el try y no se utiliza el método sleep ya que con este no se puede interrumpir el hilo
+//			try {
+//				Thread.sleep(4);
+//			} catch (InterruptedException e) {
+//				e.printStackTrace();
+//				System.out.println(e.getMessage());
+//			}
 		}
 	}
 
