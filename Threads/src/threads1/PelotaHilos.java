@@ -20,12 +20,13 @@ public class PelotaHilos implements Runnable {
 			pelota.mueve_pelota(component.getBounds());
 			component.paint(component.getGraphics());
 //Se comenta el try y no se utiliza el método sleep ya que con este no se puede interrumpir el hilo
-//			try {
-//				Thread.sleep(4);
-//			} catch (InterruptedException e) {
+			try {
+				Thread.sleep(4);
+			} catch (InterruptedException e) {
 //				e.printStackTrace();
 //				System.out.println(e.getMessage());
-//			}
+				Thread.currentThread().interrupt();
+			}
 		}
 	}
 
