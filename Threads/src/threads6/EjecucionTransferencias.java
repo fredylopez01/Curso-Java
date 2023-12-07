@@ -15,6 +15,7 @@ public class EjecucionTransferencias implements Runnable {
 		while(true) {
 			int para = (int)(100*Math.random());
 			double cantidad = max*Math.random();
+			
 			b.transferencia(de, para, cantidad);
 			try {
 				Thread.sleep((int)(Math.random()*10));
