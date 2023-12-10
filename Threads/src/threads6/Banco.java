@@ -1,11 +1,13 @@
 package threads6;
 
+import java.util.concurrent.locks.Condition;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
 public class Banco {
 	private final double[] cuentas;
 	private Lock cierreBanco;
+	private Condition saldoSuficiente;
 	
 	public Banco() {
 		cierreBanco = new ReentrantLock();
@@ -13,21 +15,24 @@ public class Banco {
 		for(int i = 0; i < cuentas.length; i++) {
 			cuentas[i] = 2000;
 		}
+		saldoSuficiente = cierreBanco.newCondition();
 	}
 	
-	public void transferencia(int cuentaOrigen, int cuentaDestino, double cantidad) {
-		cierreBanco.lock();
+	public void transferencia(int cuentaOrigen, int cuentaDestino, double cantidad) throws InterruptedException {
+		cierreBanco.lock(); //Método para bloquear este código y que solo pueda ser ejecutado por un hilo
 		try {
-			if(cuentas[cuentaOrigen]<cantidad) {
-				return; //si el saldo es menor a la cantidad entonces termina el método
+			while(cuentas[cuentaOrigen]<cantidad) {
+//				return; //si el saldo es menor a la cantidad entonces termina el método
+				saldoSuficiente.await();
 			}
 			System.out.println(Thread.currentThread());
 			cuentas[cuentaOrigen]-= cantidad;
 			System.out.printf("%10.2f de %d para %d", cantidad, cuentaOrigen, cuentaDestino);
 			cuentas[cuentaDestino]+= cantidad;
 			System.out.printf("Saldo total: %10.2f%n", getSaldoTotal());
+			saldoSuficiente.signalAll();
 		} finally {
-			cierreBanco.unlock();
+			cierreBanco.unlock(); //El método se desbloquea para que 
 		}
 	}
 	
